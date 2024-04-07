@@ -22,8 +22,6 @@ def import_file():
     plot1.plot(x_axis,y_axis) 
     canvas = FigureCanvasTkAgg(fig, master = root)   
     canvas.draw() 
-  
-    # placing the canvas on the Tkinter window 
     canvas.get_tk_widget().pack() 
   
     # # creating the Matplotlib toolbar 

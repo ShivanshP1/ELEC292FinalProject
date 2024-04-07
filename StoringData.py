@@ -1,12 +1,10 @@
 import pandas as pd
 import numpy as np
 import h5py
-
-import math
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
 
-with h5py.File('HDF5_Data.h5', 'w') as hdf:
+
+with h5py.File('Data.h5', 'w') as hdf:
     #Creating the folders in the HDF5 
     G1 = hdf.create_group('/Shivansh')
     G2 = hdf.create_group('/Aidan')

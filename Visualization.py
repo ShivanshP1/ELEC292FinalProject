@@ -30,7 +30,7 @@ for i, file in enumerate(csv_files):
     axs[i, 3].plot(data['Time (s)'], data['Absolute acceleration (m/s^2)'])
     axs[i, 3].set_title('Absolute Acceleration')
 
-    axs[i, 4].plot(y4_values, x3_values)
+    axs[i, 4].plot(x3_values,y4_values)
     axs[i, 4].set_title('Absolute vs Z Acceleration')
     
     # Set figure title to the name of the CSV file without .CSV extension
