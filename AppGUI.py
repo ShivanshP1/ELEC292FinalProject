@@ -11,26 +11,18 @@ from sklearn.pipeline import make_pipeline
 from sklearn.discriminant_analysis import StandardScaler
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,NavigationToolbar2Tk)
 
-
 def classify(dataset_CSV):
-
     loaded_model = joblib.load('LRM.pkl')
     scaler = StandardScaler()
-    clf = make_pipeline(StandardScaler(), loaded_model) 
+    clf = make_pipeline(StandardScaler(),loaded_model) 
 
-    features_scaled = scaler.fit_transform(dataset_CSV)
-
-    predictions = clf.predict(features_scaled)
-    dataset_CSV['median'] = np.where(predictions == 1, 'Walking', 'Jumping')
+    # dataScaled = scaler.fit_transform(dataset_CSV)
+    # predictions = clf.predict(dataScaled)
     
-    print(dataset_CSV['median'])
-
 
 def Load_Graph():
     file_path = filedialog.askopenfilename(title="Select a CSV file", filetypes=[("CSV files", "*.csv")])
     if file_path:
-        # Process the selected file (you can replace this with your own logic)
-        print("Selected file:", file_path)
         data = pd.read_csv(file_path)
     #------------------------------------------------------
     #Graphing
@@ -50,27 +42,20 @@ def Load_Graph():
     toolbar.update() 
     #------------------------------------------------------
     #Classify the data
-    classify(data)
-
+    # classify(data)
+    var = ""
     #------------------------------------------------------
 
-# Create the main Tkinter window
+    new_label = tk.Label(root, text=var)
+    new_label.pack()
+
+
 root = tk.Tk()
 root.title("ELEC292FinalProject")
-root.geometry("500x600") 
-# Create an "Import CSV File" button
+root.geometry("500x650") 
 import_button = tk.Button(root, text="Import CSV File", command=Load_Graph)
 import_button.pack(pady=20)
 import_button.pack(padx=50)
 # root.configure(background="black")
-
-#-------------------------
-
-
-text = Label(root, text="")
-text.pack()
-
-#------------------------
-# Run the Tkinter event loop
 
 root.mainloop()
