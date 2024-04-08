@@ -1,8 +1,8 @@
 import pandas as pd
 import numpy as np
 import h5py
-from sklearn.model_selection import train_test_split
 
+from sklearn.model_selection import train_test_split
 
 with h5py.File('Data.h5', 'w') as hdf:
     #Creating the folders in the HDF5 
@@ -50,21 +50,18 @@ with h5py.File('Data.h5', 'w') as hdf:
 
 
     # Divide signal into windows
-    windowSize = 500  # 500 becuase 500 corresponds to 5 seconds
+    windowSize = 500  # 500 points corresponds to 5 seconds
     numWindows1 = int(len(jumping_df) / windowSize)
     numWindows2 = int(len(walk_df) / windowSize)
 
-    jumpingWindows = [jumping_df.iloc[i:i+windowSize] for i in range(0, len(jumping_df), windowSize) if
+    jumpingWindowSize = [jumping_df.iloc[i:i+windowSize] for i in range(0, len(jumping_df), windowSize) if
                       len(jumping_df.iloc[i:i + windowSize] == windowSize)]
 
-    walkingWindows = [walk_df.iloc[i:i + windowSize] for i in range(0, len(walk_df), windowSize) if
+    walkingWindowSize = [walk_df.iloc[i:i + windowSize] for i in range(0, len(walk_df), windowSize) if
                       len(walk_df.iloc[i:i + windowSize] == windowSize)]
 
-    np.random.shuffle(jumpingWindows)
-    np.random.shuffle(walkingWindows)
-
-    jumpTrain, jumpTest = train_test_split(jumpingWindows, test_size=0.1, random_state=42)
-    walkTrain, walkTest = train_test_split(walkingWindows, test_size=0.1, random_state=42)
+    jumpTrain, jumpTest = train_test_split(jumpingWindowSize, test_size=0.1, random_state=42)
+    walkTrain, walkTest = train_test_split(walkingWindowSize, test_size=0.1, random_state=42)
 
     for i, dataset in enumerate(jumpTrain):
         G4_1.create_dataset(f'jumpTrain_{i}', data=dataset)

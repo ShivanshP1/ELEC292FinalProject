@@ -1,7 +1,16 @@
 import h5py
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import StandardScaler
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay, roc_curve, roc_auc_score, RocCurveDisplay, f1_score
+from sklearn.pipeline import make_pipeline
+from sklearn.linear_model import LogisticRegression
 
+
+#Feature Extraction
+#--------------------------------------------------------------------------------------------------------------
 def check_hdf5_datasets(file_path):
     group_path = 'dataset/Train' 
     datasets = {}
@@ -14,13 +23,14 @@ def check_hdf5_datasets(file_path):
     return datasets
 
 def FeatureExtraction(ds):   
+        print(ds)
         features = {}
-        features['max'] = np.max(ds)
-        features['min'] = np.min(ds)
-        features['range'] = np.max(ds) - np.min(ds)
-        features['mean'] = np.mean(ds)
-        features['median'] = np.median(ds)
-        features['variance'] = np.var(ds)
+        features['max'] = np.max(ds[4])
+        features['min'] = np.min(ds[4])
+        features['range'] = np.max(ds[4]) - np.min(ds[4])
+        features['mean'] = np.mean(ds[4])
+        features['median'] = np.median(ds[4])
+        features['variance'] = np.var(ds[4])
         return features
 
 # Path to HDF5 file
@@ -29,12 +39,15 @@ datasets = check_hdf5_datasets(file_path)
 # print("Datasets found in the HDF5 file:")
 # print(datasets)
 
-Tfeatures = []
+Trainingfeatures = []
 for datasetKey, datasetValue in datasets.items():
-    Tfeatures.append(FeatureExtraction(datasetValue))
+    Trainingfeatures.append(FeatureExtraction(datasetValue))
 
-features_DF= pd.DataFrame(Tfeatures)
+features_DF= pd.DataFrame(Trainingfeatures)
 feature_normalized = (features_DF - features_DF.min()) / (features_DF.max()-features_DF.min())
 
-print("Processed features:", Tfeatures)
+# print("Processed features:", Trainingfeatures)
 print(feature_normalized , '\n' , "done")
+
+with h5py.File('Features.h5', 'w') as output_f:
+    G1 = output_f.create_dataset("Features", data=feature_normalized)

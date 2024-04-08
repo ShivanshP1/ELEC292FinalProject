@@ -13,7 +13,7 @@ def normalize(data):
     normalized_data =()
     newData = np.array(data)
     normalized_data = (newData - newData.min()) / (newData.max() - newData.min())
-    print(normalized_data, "\n")
+    # print(normalized_data, "\n")
     return normalized_data
 #----------------------------------------------------------------------------------------------------------------------
 with h5py.File('Data.h5', 'r') as f:
